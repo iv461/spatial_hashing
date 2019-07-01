@@ -28,7 +28,7 @@ And run it:
 
 ## Usage
 
-Just include the ```SHRS.hpp``` header in your project
+Just add the ```include/shrs``` folder to your project and include the ```shrs/SHRS.hpp```
 
 ### Dataset adaptor
 
@@ -36,7 +36,7 @@ Similar to nanoflann, you have to provide a dataset adaptor.
 
 A example adaptor for PCL pointclouds:
 
-```
+```cpp
 template <typename point_t>
 class PCLSHRSAdaptor {
 public:
@@ -73,7 +73,7 @@ public:
 ### Constructing search data structure
 
 
-```
+```cpp
 using point_t = pcl::PointXYZ;
 using shrs_t = SHRS<PCLSHRSAdaptor<point_t>>;
 pcl::PointCloud<point_t> test_pcl;
@@ -86,7 +86,7 @@ shrs_t shrs_map(PCLSHRSAdaptor<point_t>(test_pcl),
 Now you can fill the pointcloud with data and then insert all the points
 in the search data structure:
 
-``` 
+```cpp
 // fill here the test_pcl ..
 
 // now insert in search data structure
@@ -96,7 +96,7 @@ shrs_map.insert_all();
 
 Points can also be inserted and deleted one by one in constant time complexity:
 
-```
+```cpp
 size_t some_index = 11;
 shrs_map.insert_point(some_index);
 shrs_map.delete_point(some_index);
@@ -106,7 +106,7 @@ shrs_map.delete_point(some_index);
 
 ### Finding all points in radius for a point in dataset
 
-```
+```cpp
 // must exist in pointcloud
 size_t search_point_idx = 7; 
 vector<typename shrs_t::key_t> neighbours;
@@ -121,7 +121,7 @@ if(shrs_map.find_neighbours(search_point_idx, neighbours) {
 
 ### Finding nearest neighbour in radius of a point not in dataset
 
-```
+```cpp
 Vector2d search_point = { 70., 80. };
 vector<typename shrs_t::key_t> neighbours;
 if(shrs_map.find_nn_vec(search_point, neighbours)) {
